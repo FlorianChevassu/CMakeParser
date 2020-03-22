@@ -1,6 +1,6 @@
 #pragma once
 
-#include "expected.hpp"
+#include <tl/expected.hpp>
 
 namespace cmake::language
 {

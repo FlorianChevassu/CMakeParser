@@ -1,10 +1,17 @@
+find_package(fmt REQUIRED)
+find_package(tl-expected REQUIRED)
+
 add_library(CMakeParser)
 
-target_include_directories(CMakeParser PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-# std::expected
-target_include_directories(CMakeParser PUBLIC ${CMAKE_SOURCE_DIR}/dependencies/expected)
-# fmt
-target_include_directories(CMakeParser PUBLIC ${CMAKE_SOURCE_DIR}/dependencies/fmt)
+target_link_libraries(CMakeParser
+    PRIVATE fmt::fmt
+    PUBLIC tl::expected
+)
+
+target_include_directories(CMakeParser
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+           $<INSTALL_INTERFACE:include>
+)
 
 target_compile_features(CMakeParser PUBLIC cxx_std_17)
 
