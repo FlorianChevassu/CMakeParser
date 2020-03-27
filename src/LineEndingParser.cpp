@@ -21,13 +21,25 @@ namespace cmake::language
     auto newLine = Parser<ElementType::NewLine>{}.Parse(newRange);
     if (!newLine)
     {
-      Error err;
-      err.message = "A LineEnding should end with a NewLine.";
-      err.context = Range{ newRange.begin, newRange.begin };
-      return tl::make_unexpected(err);
+#ifndef CMAKE_PARSER_STRICT_MODE
+      if (!m_acceptNoNewLine)
+      {
+        Error err;
+        err.message = "A LineEnding should end with a NewLine.";
+        err.context = Range{ newRange.begin, newRange.begin };
+        return tl::make_unexpected(err);
+      }
+      else
+      {
+        result.range = Range{ r.begin, newRange.end };
+      }
+#endif
     }
-    result.children.push_back(*newLine);
-    result.range = Range{ r.begin, newLine->range.end };
+    else
+    {
+      result.children.push_back(*newLine);
+      result.range = Range{ r.begin, newLine->range.end };
+    }
     return result;
   }
 }

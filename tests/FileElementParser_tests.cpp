@@ -25,9 +25,14 @@ TEST_CASE("FileElementParser", "[Parser]")
     }
 
 #ifndef CMAKE_PARSER_STRICT_MODE
-    SECTION("Command invocation with end line comment separated by space")
+    SECTION("Command invocation without end line comment separated by space")
     {
       script = "set(a b c) # comment\n";
+    }
+
+    SECTION("Command invocation without end line")
+    {
+      script = "set(a b c) # comment ";
     }
 #endif
 

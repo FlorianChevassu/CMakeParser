@@ -1,5 +1,7 @@
 #include "FileElementParser.hpp"
 
+#include "LineEndingParser.hpp"
+
 #include "Error.hpp"
 #include "Range.hpp"
 #include "Token.hpp"
@@ -77,7 +79,11 @@ namespace cmake::language
       currentRange = Range{ result.children.back().range.end, r.end };
     }
 
+#ifdef CMAKE_PARSER_STRICT_MODE
     tl::expected<Token, Error> lineEnding = Parser<ElementType::LineEnding>{}.Parse(currentRange);
+#else
+    tl::expected<Token, Error> lineEnding = Parser<ElementType::LineEnding>(true).Parse(currentRange);
+#endif
 
     if (!lineEnding)
     {
