@@ -19,63 +19,68 @@ if(STRICT_MODE)
   target_compile_definitions(CMakeParser PUBLIC CMAKE_PARSER_STRICT_MODE)
 endif()
 
-target_sources(CMakeParser PRIVATE
-    ArgumentParser.hpp
+set(HEADERS
+    ${CMAKE_CURRENT_SOURCE_DIR}/ArgumentParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ArgumentsParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/BracketArgumentParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/BracketCloseParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/BracketCommentParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/BracketContentParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/BracketOpenParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/CommandInvocationParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ElementType.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Error.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/EscapeEncodedParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/EscapeIdentityParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/EscapeSemiliconParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/EscapeSequenceParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/FileElementParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/FileParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/IdentifierParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/LineCommentParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/LineEndingParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/NewLineParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Parser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/QuotedArgumentParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/QuotedContinuationParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/QuotedElementParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Range.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/SeparatedArgumentsParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/SeparationParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/SpaceParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Token.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/UnquotedArgumentParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/UnquotedElementParser.hpp)
+
+target_sources(CMakeParser PRIVATE ${HEADERS}
     ArgumentParser.cpp
-    ArgumentsParser.hpp
     ArgumentsParser.cpp
-    BracketArgumentParser.hpp
     BracketArgumentParser.cpp
-    BracketCloseParser.hpp
     BracketCloseParser.cpp
-    BracketCommentParser.hpp
     BracketCommentParser.cpp
-    BracketContentParser.hpp
     BracketContentParser.cpp
-    BracketOpenParser.hpp
     BracketOpenParser.cpp
-    CommandInvocationParser.hpp
     CommandInvocationParser.cpp
-    ElementType.hpp
-    Error.hpp
-    EscapeEncodedParser.hpp
     EscapeEncodedParser.cpp
-    EscapeIdentityParser.hpp
     EscapeIdentityParser.cpp
-    EscapeSemiliconParser.hpp
     EscapeSemiliconParser.cpp
-    EscapeSequenceParser.hpp
     EscapeSequenceParser.cpp
-    FileElementParser.hpp
     FileElementParser.cpp
-    FileParser.hpp
     FileParser.cpp
-    IdentifierParser.hpp
     IdentifierParser.cpp
-    LineCommentParser.hpp
     LineCommentParser.cpp
-    LineEndingParser.hpp
     LineEndingParser.cpp
-    NewLineParser.hpp
     NewLineParser.cpp
-    Parser.hpp
-    QuotedArgumentParser.hpp
     QuotedArgumentParser.cpp
-    QuotedContinuationParser.hpp
     QuotedContinuationParser.cpp
-    QuotedElementParser.hpp
     QuotedElementParser.cpp
-    Range.hpp
     Range.cpp
-    SeparatedArgumentsParser.hpp
     SeparatedArgumentsParser.cpp
-    SeparationParser.hpp
     SeparationParser.cpp
-    SpaceParser.hpp
     SpaceParser.cpp
-    Token.hpp
-    UnquotedArgumentParser.hpp
     UnquotedArgumentParser.cpp
-    UnquotedElementParser.hpp
     UnquotedElementParser.cpp
 )
+
+
+set_target_properties(CMakeParser PROPERTIES PUBLIC_HEADER "${HEADERS}")

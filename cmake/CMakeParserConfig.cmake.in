@@ -1,1 +1,9 @@
+include(CMakeFindDependencyMacro)
+
+set(fmt_DIR @fmt_DIR@)
+find_dependency(fmt REQUIRED)
+
+set(tl-expected_DIR @tl-expected_DIR@)
+find_dependency(tl-expected REQUIRED)
+
 include("${CMAKE_CURRENT_LIST_DIR}/CMakeParserTargets.cmake")
