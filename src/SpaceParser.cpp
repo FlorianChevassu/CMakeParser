@@ -1,5 +1,6 @@
 #include "SpaceParser.hpp"
 
+#include "CommonErrors.hpp"
 #include "Error.hpp"
 #include "Range.hpp"
 #include "Token.hpp"
@@ -15,10 +16,7 @@ namespace cmake::language
     auto IsSpace = [](Char c) { return c == '\t' || c == ' '; };
     if (r.IsEmpty())
     {
-      Error err;
-      err.message = "Expected \' \' or \'\\t\', got an empty range.";
-      err.context = r.begin;
-      return tl::make_unexpected(err);
+      return CreateEmptyRangeError(r, R"(' ' or '\t')");
     }
     else if (!IsSpace(*r.begin))
     {

@@ -28,6 +28,7 @@ set(HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/BracketContentParser.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/BracketOpenParser.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/CommandInvocationParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/CommonErrors.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ElementType.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Error.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/EscapeEncodedParser.hpp
@@ -61,6 +62,7 @@ target_sources(CMakeParser PRIVATE ${HEADERS}
     BracketContentParser.cpp
     BracketOpenParser.cpp
     CommandInvocationParser.cpp
+    CommonErrors.cpp
     EscapeEncodedParser.cpp
     EscapeIdentityParser.cpp
     EscapeSemiliconParser.cpp
