@@ -7,6 +7,14 @@
 
 namespace cmake::language
 {
+  tl::unexpected<Error> CreateMissingEndingQuoteError(const Range& range)
+  {
+    Error error;
+    error.context = range.begin;
+    error.message = "Could not parse quoted argument. Missing ending quotes.";
+    return tl::make_unexpected(error);
+  }
+
   //-----------------------------------------------------------------------------
   tl::expected<Token, Error> Parser<ElementType::QuotedArgument>::Parse(Range r)
   {
@@ -19,6 +27,7 @@ namespace cmake::language
     {
       Error err;
       err.context = r.begin;
+      err.message = "Could not parse quoted argument. Missing starting quotes.";
       return tl::make_unexpected(err);
     }
 
@@ -41,9 +50,7 @@ namespace cmake::language
     {
       if (currentRange.begin == r.end || *currentRange.begin != '\"')
       {
-        Error err;
-        err.context = r.begin;
-        return tl::make_unexpected(err);
+        return CreateMissingEndingQuoteError(r);
       }
 
       result.range = Range{ r.begin, currentRange.begin + 1 };
@@ -52,9 +59,7 @@ namespace cmake::language
     {
       if (std::distance(r.begin, r.end) < 2)
       {
-        Error err;
-        err.context = r.begin;
-        return tl::make_unexpected(err);
+        return CreateMissingEndingQuoteError(r);
       }
 
       result.range = Range{ r.begin, r.begin + 2 };
