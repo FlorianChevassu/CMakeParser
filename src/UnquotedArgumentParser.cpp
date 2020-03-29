@@ -17,6 +17,8 @@ namespace cmake::language
     {
       Error err;
       err.context = r.begin;
+      err.message = "Could not parse unquoted argument.";
+      err.children.push_back(tmp.error());
       return tl::make_unexpected(err);
     }
 
