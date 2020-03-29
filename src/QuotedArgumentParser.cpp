@@ -57,13 +57,6 @@ namespace cmake::language
         return tl::make_unexpected(err);
       }
 
-      if (*(r.begin + 1) != '\"')
-      {
-        Error err;
-        err.context = r.begin;
-        return tl::make_unexpected(err);
-      }
-
       result.range = Range{ r.begin, r.begin + 2 };
     }
     return result;
