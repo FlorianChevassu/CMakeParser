@@ -6,6 +6,7 @@
 
 #include "catch.hpp"
 
+
 TEST_CASE("QuotedArgumentParser", "[Parser]")
 {
   using namespace std::literals;
@@ -17,6 +18,15 @@ TEST_CASE("QuotedArgumentParser", "[Parser]")
     SECTION("Classic case")
     {
       auto script = "\"quoted arg with spaces and;semicolons\""sv;
+      Range r{ script.begin(), script.end() };
+      auto result = parser.Parse(r);
+      REQUIRE(result);
+      REQUIRE(result.value().range == r);
+    }
+
+    SECTION("Empty quotes")
+    {
+      std::string script = "\"\"";
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -45,6 +55,13 @@ TEST_CASE("QuotedArgumentParser", "[Parser]")
     SECTION("Empty range")
     {
       auto script = ""sv;
+      Range r{ script.begin(), script.end() };
+      auto result = parser.Parse(r);
+      REQUIRE(!result);
+    }
+    SECTION("Only opening quote")
+    {
+      std::string script = "\"";
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);
