@@ -36,6 +36,7 @@ namespace cmake::language
 
     Error err;
     err.context = r.begin;
+    err.message = "Could not parse argument.";
     return tl::make_unexpected(err);
   }
 }
