@@ -2,6 +2,7 @@
 
 #include "LineEndingParser.hpp"
 
+#include "CommonErrors.hpp"
 #include "Error.hpp"
 #include "Range.hpp"
 #include "Token.hpp"
@@ -13,10 +14,7 @@ namespace cmake::language
   {
     if (r.IsEmpty())
     {
-      Error err;
-      err.message = "Empty range.";
-      err.context = r;
-      return tl::make_unexpected(std::move(err));
+      return CreateEmptyRangeError(r, "file element");
     }
 
     Token result;

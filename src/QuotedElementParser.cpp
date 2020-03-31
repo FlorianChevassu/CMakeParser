@@ -1,5 +1,6 @@
 #include "QuotedElementParser.hpp"
 
+#include "CommonErrors.hpp"
 #include "Error.hpp"
 #include "Range.hpp"
 #include "Token.hpp"
@@ -13,9 +14,7 @@ namespace cmake::language
 
     if (r.IsEmpty())
     {
-      Error err;
-      err.context = r.begin;
-      return tl::make_unexpected(err);
+      return CreateEmptyRangeError(r, "quoted element");
     }
 
     Token result;
