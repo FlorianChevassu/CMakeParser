@@ -8,6 +8,7 @@
 
 TEST_CASE("EscapeEncodedParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
   Parser<ElementType::EscapeEncoded> parser;
 
@@ -15,7 +16,7 @@ TEST_CASE("EscapeEncodedParser", "[Parser]")
   {
     SECTION("Tab")
     {
-      std::string script = "\\t";
+      auto script = "\\t"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -23,7 +24,7 @@ TEST_CASE("EscapeEncodedParser", "[Parser]")
     }
     SECTION("Return")
     {
-      std::string script = "\\r";
+      auto script = "\\r"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -31,7 +32,7 @@ TEST_CASE("EscapeEncodedParser", "[Parser]")
     }
     SECTION("New line")
     {
-      std::string script = "\\n";
+      auto script = "\\n"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -43,7 +44,7 @@ TEST_CASE("EscapeEncodedParser", "[Parser]")
   {
     SECTION("Any other character")
     {
-      std::string script = "\\a";
+      auto script = "\\a"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);
@@ -51,7 +52,7 @@ TEST_CASE("EscapeEncodedParser", "[Parser]")
 
     SECTION("No character")
     {
-      std::string script = "\\";
+      auto script = "\\"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);
@@ -59,7 +60,7 @@ TEST_CASE("EscapeEncodedParser", "[Parser]")
 
     SECTION("No \'\\\'")
     {
-      std::string script = "a";
+      auto script = "a"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);

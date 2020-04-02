@@ -8,6 +8,7 @@
 
 TEST_CASE("LineEndingParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
   Parser<ElementType::LineEnding> parser;
 
@@ -15,7 +16,7 @@ TEST_CASE("LineEndingParser", "[Parser]")
   {
     SECTION("Comment with new line")
     {
-      std::string script = "# comment \n";
+      auto script = "# comment \n"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -23,7 +24,7 @@ TEST_CASE("LineEndingParser", "[Parser]")
     }
     SECTION("Only new line")
     {
-      std::string script = "\n";
+      auto script = "\n"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -35,7 +36,7 @@ TEST_CASE("LineEndingParser", "[Parser]")
   {
     SECTION("Bracket comment with new line")
     {
-      std::string script = "#[[ comment ]]\n";
+      auto script = "#[[ comment ]]\n"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);

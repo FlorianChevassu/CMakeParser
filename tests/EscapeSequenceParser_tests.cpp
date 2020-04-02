@@ -8,6 +8,7 @@
 
 TEST_CASE("EscapeSequenceParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
   Parser<ElementType::EscapeSequence> parser;
 
@@ -15,18 +16,18 @@ TEST_CASE("EscapeSequenceParser", "[Parser]")
   {
     SECTION("Anything after \'\\\'")
     {
-      std::string script;
+      std::string_view script;
       SECTION("Escape identity")
       {
-        script = "\\$";
+        script = "\\$"sv;
       }
       SECTION("Escape semilicon")
       {
-        script = "\\;";
+        script = "\\;"sv;
       }
       SECTION("Escape encoded")
       {
-        script = "\\t";
+        script = "\\t"sv;
       }
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
@@ -39,7 +40,7 @@ TEST_CASE("EscapeSequenceParser", "[Parser]")
   {
     SECTION("Without \'\\\'")
     {
-      std::string script = "$";
+      auto script = "$"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);

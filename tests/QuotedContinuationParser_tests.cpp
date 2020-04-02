@@ -8,6 +8,7 @@
 
 TEST_CASE("QuotedContinuationParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
   Parser<ElementType::QuotedContinuation> parser;
 
@@ -15,7 +16,7 @@ TEST_CASE("QuotedContinuationParser", "[Parser]")
   {
     SECTION("Classic case")
     {
-      std::string script = "\\\n";
+      auto script = "\\\n"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -25,7 +26,7 @@ TEST_CASE("QuotedContinuationParser", "[Parser]")
 #ifndef CMAKE_PARSER_STRICT_MODE
     SECTION("With space before new line")
     {
-      std::string script = "\\ \n";
+      auto script = "\\ \n"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -38,7 +39,7 @@ TEST_CASE("QuotedContinuationParser", "[Parser]")
   {
     SECTION("Without new line")
     {
-      std::string script = "\\";
+      auto script = "\\"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);
@@ -47,7 +48,7 @@ TEST_CASE("QuotedContinuationParser", "[Parser]")
 #ifdef CMAKE_PARSER_STRICT_MODE
     SECTION("With space before new line")
     {
-      std::string script = "\\ \n";
+      auto script = "\\ \n"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);

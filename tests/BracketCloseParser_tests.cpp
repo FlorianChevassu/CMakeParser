@@ -8,6 +8,7 @@
 
 TEST_CASE("BracketCloseParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
 
   SECTION("Parse")
@@ -15,7 +16,7 @@ TEST_CASE("BracketCloseParser", "[Parser]")
     SECTION("Without \'=\'")
     {
       Parser<ElementType::BracketClose> parser(0);
-      std::string script = "]]";
+      auto script = "]]"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -25,7 +26,7 @@ TEST_CASE("BracketCloseParser", "[Parser]")
     SECTION("With \'=\'")
     {
       Parser<ElementType::BracketClose> parser(1);
-      std::string script = "]=]";
+      auto script = "]=]"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -38,7 +39,7 @@ TEST_CASE("BracketCloseParser", "[Parser]")
     SECTION("With different numbers of \'=\'")
     {
       Parser<ElementType::BracketClose> parser(1);
-      std::string script = "]==]";
+      auto script = "]==]"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);
@@ -47,7 +48,7 @@ TEST_CASE("BracketCloseParser", "[Parser]")
     SECTION("With something else than \'=\'")
     {
       Parser<ElementType::BracketClose> parser(1);
-      std::string script = "]a]";
+      auto script = "]a]"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);

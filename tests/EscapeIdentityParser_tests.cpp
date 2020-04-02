@@ -8,6 +8,7 @@
 
 TEST_CASE("EscapeIdentityParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
   Parser<ElementType::EscapeIdentity> parser;
 
@@ -15,7 +16,7 @@ TEST_CASE("EscapeIdentityParser", "[Parser]")
   {
     SECTION("\\$")
     {
-      std::string script = "\\$";
+      auto script = "\\$"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -24,7 +25,7 @@ TEST_CASE("EscapeIdentityParser", "[Parser]")
 
     SECTION("\\&")
     {
-      std::string script = "\\&";
+      auto script = "\\&"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -38,21 +39,21 @@ TEST_CASE("EscapeIdentityParser", "[Parser]")
     {
       SECTION("\\a")
       {
-        std::string script = "\\a";
+        auto script = "\\a"sv;
         Range r{ script.begin(), script.end() };
         auto result = parser.Parse(r);
         REQUIRE(!result);
       }
       SECTION("\\1")
       {
-        std::string script = "\\1";
+        auto script = "\\1"sv;
         Range r{ script.begin(), script.end() };
         auto result = parser.Parse(r);
         REQUIRE(!result);
       }
       SECTION("\\;")
       {
-        std::string script = "\\;";
+        auto script = "\\;"sv;
         Range r{ script.begin(), script.end() };
         auto result = parser.Parse(r);
         REQUIRE(!result);

@@ -8,6 +8,7 @@
 
 TEST_CASE("UnquotedArgumentParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
   Parser<ElementType::UnquotedArgument> parser;
 
@@ -15,7 +16,7 @@ TEST_CASE("UnquotedArgumentParser", "[Parser]")
   {
     SECTION("Classic case")
     {
-      std::string script = "a_valid_text";
+      auto script = "a_valid_text"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -24,7 +25,7 @@ TEST_CASE("UnquotedArgumentParser", "[Parser]")
 
     SECTION("Escape sequence")
     {
-      std::string script = "a_text_with_\\t";
+      auto script = "a_text_with_\\t"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -36,7 +37,7 @@ TEST_CASE("UnquotedArgumentParser", "[Parser]")
   {
     SECTION("Opening parenthesis")
     {
-      std::string script = "text_with_(";
+      auto script = "text_with_("sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -45,7 +46,7 @@ TEST_CASE("UnquotedArgumentParser", "[Parser]")
 
     SECTION("Closing parenthesis")
     {
-      std::string script = "text_with_)";
+      auto script = "text_with_)"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -54,7 +55,7 @@ TEST_CASE("UnquotedArgumentParser", "[Parser]")
 
     SECTION("\'#\'")
     {
-      std::string script = "text_with_#";
+      auto script = "text_with_#"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -63,7 +64,7 @@ TEST_CASE("UnquotedArgumentParser", "[Parser]")
 
     SECTION("\'\\\'")
     {
-      std::string script = "text_with_\\";
+      auto script = "text_with_\\"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
