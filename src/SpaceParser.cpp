@@ -13,7 +13,7 @@ namespace cmake::language
   //-----------------------------------------------------------------------------
   tl::expected<Token, Error> Parser<ElementType::Space>::Parse(Range r)
   {
-    auto IsSpace = [](Char c) { return c == '\t' || c == ' '; };
+    auto IsSpace = [](char c) { return c == '\t' || c == ' '; };
     if (r.IsEmpty())
     {
       return CreateEmptyRangeError(r, R"(' ' or '\t')");

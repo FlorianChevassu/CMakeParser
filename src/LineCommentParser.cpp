@@ -31,7 +31,7 @@ namespace cmake::language
     result.type = ElementType::LineComment;
 
     // Match everything until a new line.
-    auto it = std::find_if(r.begin, r.end, [](Char c) { return c == '\n'; });
+    auto it = std::find_if(r.begin, r.end, [](char c) { return c == '\n'; });
     result.range = Range{ r.begin, it };
     return result;
   }

@@ -21,14 +21,14 @@ namespace cmake::language
   tl::expected<Token, Error> Parser<ElementType::BracketContent>::Parse(Range r)
   {
     auto ClosingBracketIsValid = [len = m_length](auto it) {
-      return std::all_of(it, it + len, [](Char c) { return c == '='; }) && *(it + len + 1) == ']';
+      return std::all_of(it, it + len, [](char c) { return c == '='; }) && *(it + len + 1) == ']';
     };
 
     Token result;
     result.type = ElementType::BracketContent;
 
     tl::expected<Token, Error> bracketCloseToken;
-    auto firstClosingBracket = std::find_if(r.begin, r.end, [](Char c) { return c == ']'; });
+    auto firstClosingBracket = std::find_if(r.begin, r.end, [](char c) { return c == ']'; });
     do
     {
       if (firstClosingBracket == r.end)
@@ -39,7 +39,7 @@ namespace cmake::language
         return tl::make_unexpected(err);
       }
       bracketCloseToken = Parser<ElementType::BracketClose>{m_length}.Parse({ firstClosingBracket, r.end });
-      firstClosingBracket = std::find_if(firstClosingBracket + 1, r.end, [](Char c) { return c == ']'; });
+      firstClosingBracket = std::find_if(firstClosingBracket + 1, r.end, [](char c) { return c == ']'; });
     } while (!bracketCloseToken);
 
     result.range = Range{ r.begin, bracketCloseToken->range.begin };

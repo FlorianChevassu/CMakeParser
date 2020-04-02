@@ -34,7 +34,7 @@ namespace cmake::language
       return tl::make_unexpected(err);
     }
 
-    auto firstNonEqual = std::find_if(r.begin + 1, r.end, [](Char c) { return c != '='; });
+    auto firstNonEqual = std::find_if(r.begin + 1, r.end, [](char c) { return c != '='; });
     this->m_length = firstNonEqual - r.begin - 1;
     if (*firstNonEqual != '[')
     {

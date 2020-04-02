@@ -15,7 +15,7 @@ namespace cmake::language
       err.context = r.begin;
       return tl::make_unexpected(err);
     }
-    Char c = *(r.begin + 1);
+    char c = *(r.begin + 1);
     if (c != 't' && c != 'r' && c != 'n')
     {
       Error err;
