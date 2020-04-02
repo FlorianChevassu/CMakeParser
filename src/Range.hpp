@@ -4,8 +4,7 @@
 
 namespace cmake::language
 {
-
-  using It = std::string::const_iterator;
+  using It = std::string_view::const_iterator;
 
   struct Context
   {

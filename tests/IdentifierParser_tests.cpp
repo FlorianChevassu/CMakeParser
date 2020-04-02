@@ -8,6 +8,7 @@
 
 TEST_CASE("IdentifierParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
   Parser<ElementType::Identifier> parser;
 
@@ -15,7 +16,7 @@ TEST_CASE("IdentifierParser", "[Parser]")
   {
     SECTION("Classic case")
     {
-      std::string script = "Upper_and_Lower_with_1_number";
+      auto script = "Upper_and_Lower_with_1_number"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -27,7 +28,7 @@ TEST_CASE("IdentifierParser", "[Parser]")
   {
     SECTION("Start with a number")
     {
-      std::string script = "0_bad";
+      auto script = "0_bad"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);
@@ -35,7 +36,7 @@ TEST_CASE("IdentifierParser", "[Parser]")
 
     SECTION("Use special characters")
     {
-      std::string script = "dollar_$_is_not_valid";
+      auto script = "dollar_$_is_not_valid"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);

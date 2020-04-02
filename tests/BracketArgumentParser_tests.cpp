@@ -8,6 +8,7 @@
 
 TEST_CASE("BracketArgumentParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
   Parser<ElementType::BracketArgument> parser;
 
@@ -15,7 +16,7 @@ TEST_CASE("BracketArgumentParser", "[Parser]")
   {
     SECTION("Without \'=\'")
     {
-      std::string script = "[[ text ]]";
+      auto script = "[[ text ]]"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -24,7 +25,7 @@ TEST_CASE("BracketArgumentParser", "[Parser]")
 
     SECTION("With \'=\'")
     {
-      std::string script = "[=[ text ]=]";
+      auto script = "[=[ text ]=]"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -33,7 +34,7 @@ TEST_CASE("BracketArgumentParser", "[Parser]")
 
     SECTION("With new line")
     {
-      std::string script = "[=[ text \n with \n new \n lines ]=]";
+      auto script = "[=[ text \n with \n new \n lines ]=]"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -42,7 +43,7 @@ TEST_CASE("BracketArgumentParser", "[Parser]")
 
     SECTION("With inner bracket argument")
     {
-      std::string script = "[=[ [[ inner arg ]] ]=]";
+      auto script = "[=[ [[ inner arg ]] ]=]"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -54,7 +55,7 @@ TEST_CASE("BracketArgumentParser", "[Parser]")
   {
     SECTION("With different numbers of \'=\'")
     {
-      std::string script = "[=[  ]==]";
+      auto script = "[=[  ]==]"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);
@@ -62,7 +63,7 @@ TEST_CASE("BracketArgumentParser", "[Parser]")
 
     SECTION("With inner args with same numbers of \'=\'")
     {
-      std::string script = "[=[ [=[ ]=] ]=]";
+      auto script = "[=[ [=[ ]=] ]=]"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);

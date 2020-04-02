@@ -8,6 +8,7 @@
 
 TEST_CASE("EscapeSemiliconParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
   Parser<ElementType::EscapeSemilicon> parser;
 
@@ -15,7 +16,7 @@ TEST_CASE("EscapeSemiliconParser", "[Parser]")
   {
     SECTION("\\;")
     {
-      std::string script = "\\;";
+      auto script = "\\;"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -27,7 +28,7 @@ TEST_CASE("EscapeSemiliconParser", "[Parser]")
   {
     SECTION("Any other charater")
     {
-      std::string script = "\\a";
+      auto script = "\\a"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);
@@ -35,7 +36,7 @@ TEST_CASE("EscapeSemiliconParser", "[Parser]")
 
     SECTION("Without \'\\\'")
     {
-      std::string script = ";";
+      auto script = ";"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);
@@ -43,7 +44,7 @@ TEST_CASE("EscapeSemiliconParser", "[Parser]")
 
     SECTION("Without \';\'")
     {
-      std::string script = "\\";
+      auto script = "\\"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);

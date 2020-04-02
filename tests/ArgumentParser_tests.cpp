@@ -5,9 +5,9 @@
 #include "Token.hpp"
 
 #include "catch.hpp"
-
 TEST_CASE("ArgumentParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
   Parser<ElementType::Argument> parser;
 
@@ -15,7 +15,7 @@ TEST_CASE("ArgumentParser", "[Parser]")
   {
     SECTION("BracketArgument")
     {
-      std::string script = "[[ text ]]";
+      auto script = "[[ text ]]"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -25,7 +25,7 @@ TEST_CASE("ArgumentParser", "[Parser]")
 
     SECTION("QuotedArgument")
     {
-      std::string script = "\"This is an argument !\"";
+      auto script = "\"This is an argument !\""sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -35,7 +35,7 @@ TEST_CASE("ArgumentParser", "[Parser]")
 
     SECTION("UnquotedArgument")
     {
-      std::string script = "This_is_an_argument";
+      auto script = "This_is_an_argument"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -48,7 +48,7 @@ TEST_CASE("ArgumentParser", "[Parser]")
   {
     SECTION("Should match only the first argument")
     {
-      std::string script = "arg1 \"arg2\" arg3";
+      auto script = "arg1 \"arg2\" arg3"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -57,7 +57,7 @@ TEST_CASE("ArgumentParser", "[Parser]")
 
     SECTION("Should not match with spaces before")
     {
-      std::string script = "  arg";
+      auto script = "  arg"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);
@@ -65,7 +65,7 @@ TEST_CASE("ArgumentParser", "[Parser]")
 
     SECTION("Should not match with parentheses")
     {
-      std::string script = "(arg)";
+      auto script = "(arg)"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);

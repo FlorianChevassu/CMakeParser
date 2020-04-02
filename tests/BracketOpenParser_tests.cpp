@@ -8,6 +8,7 @@
 
 TEST_CASE("BracketOpenParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
   Parser<ElementType::BracketOpen> parser;
 
@@ -15,7 +16,7 @@ TEST_CASE("BracketOpenParser", "[Parser]")
   {
     SECTION("Without \'=\'")
     {
-      std::string script = "[[";
+      auto script = "[["sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -24,7 +25,7 @@ TEST_CASE("BracketOpenParser", "[Parser]")
 
     SECTION("With \'=\'")
     {
-      std::string script = "[===[";
+      auto script = "[===["sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -37,7 +38,7 @@ TEST_CASE("BracketOpenParser", "[Parser]")
   {
     SECTION("With space before")
     {
-      std::string script = " [[";
+      auto script = " [["sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);
@@ -45,7 +46,7 @@ TEST_CASE("BracketOpenParser", "[Parser]")
 
     SECTION("With only one bracket")
     {
-      std::string script = "[";
+      auto script = "["sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);
@@ -53,7 +54,7 @@ TEST_CASE("BracketOpenParser", "[Parser]")
 
     SECTION("With something else than \'=\'")
     {
-      std::string script = "[=a=[";
+      auto script = "[=a=["sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);

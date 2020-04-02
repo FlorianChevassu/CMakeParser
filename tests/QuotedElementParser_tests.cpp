@@ -8,6 +8,7 @@
 
 TEST_CASE("QuotedElementParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
   Parser<ElementType::QuotedElement> parser;
 
@@ -15,7 +16,7 @@ TEST_CASE("QuotedElementParser", "[Parser]")
   {
     SECTION("Simple character")
     {
-      std::string script = "t";
+      auto script = "t"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -23,7 +24,7 @@ TEST_CASE("QuotedElementParser", "[Parser]")
     }
     SECTION("Escaped character")
     {
-      std::string script = "\\\"";
+      auto script = "\\\""sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -35,7 +36,7 @@ TEST_CASE("QuotedElementParser", "[Parser]")
   {
     SECTION("Quote")
     {
-      std::string script = "\"";
+      auto script = "\""sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);

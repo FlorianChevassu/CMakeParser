@@ -8,6 +8,7 @@
 
 TEST_CASE("CommandInvocationParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
   Parser<ElementType::CommandInvocation> parser;
 
@@ -15,7 +16,7 @@ TEST_CASE("CommandInvocationParser", "[Parser]")
   {
     SECTION("Classic case")
     {
-      std::string script = "set(a b \"c\")";
+      auto script = "set(a b \"c\")"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -24,7 +25,7 @@ TEST_CASE("CommandInvocationParser", "[Parser]")
 
     SECTION("With space before parenthesis")
     {
-      std::string script = "set  (a b \"c\")";
+      auto script = "set  (a b \"c\")"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -33,7 +34,7 @@ TEST_CASE("CommandInvocationParser", "[Parser]")
 
     SECTION("With new line in args")
     {
-      std::string script = "set  (a b \n \"c\")";
+      auto script = "set  (a b \n \"c\")"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -42,7 +43,7 @@ TEST_CASE("CommandInvocationParser", "[Parser]")
 
     SECTION("With space before")
     {
-      std::string script = " set(a b c)";
+      auto script = " set(a b c)"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -51,7 +52,7 @@ TEST_CASE("CommandInvocationParser", "[Parser]")
 
     SECTION("With new line before parenthesis")
     {
-      std::string script = "set \n (a b c)";
+      auto script = "set \n (a b c)"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -63,7 +64,7 @@ TEST_CASE("CommandInvocationParser", "[Parser]")
   {
     SECTION("With missing parenthesis")
     {
-      std::string script = "set(a";
+      auto script = "set(a"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);

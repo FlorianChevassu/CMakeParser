@@ -8,6 +8,7 @@
 
 TEST_CASE("QuotedArgumentParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
   Parser<ElementType::QuotedArgument> parser;
 
@@ -15,7 +16,7 @@ TEST_CASE("QuotedArgumentParser", "[Parser]")
   {
     SECTION("Classic case")
     {
-      std::string script = "\"quoted arg with spaces and;semicolons\"";
+      auto script = "\"quoted arg with spaces and;semicolons\""sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -27,7 +28,7 @@ TEST_CASE("QuotedArgumentParser", "[Parser]")
   {
     SECTION("Without quotes")
     {
-      std::string script = "arg without quotes";
+      auto script = "arg without quotes"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);
@@ -35,7 +36,7 @@ TEST_CASE("QuotedArgumentParser", "[Parser]")
 
     SECTION("Without closing quote")
     {
-      std::string script = "\"arg without closing quote";
+      auto script = "\"arg without closing quote"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);
@@ -43,7 +44,7 @@ TEST_CASE("QuotedArgumentParser", "[Parser]")
 
     SECTION("Empty range")
     {
-      std::string script = "";
+      auto script = ""sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);

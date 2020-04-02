@@ -8,56 +8,57 @@
 
 TEST_CASE("FileElementParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
   Parser<ElementType::FileElement> parser;
 
   SECTION("Parse")
   {
-    std::string script;
+    std::string_view script;
     SECTION("Command invocation without end line comment")
     {
-      script = "set(a b c)\n";
+      script = "set(a b c)\n"sv;
     }
 
     SECTION("Command invocation with end line comment")
     {
-      script = "set(a b c)# comment\n";
+      script = "set(a b c)# comment\n"sv;
     }
 
 #ifndef CMAKE_PARSER_STRICT_MODE
     SECTION("Command invocation without end line comment separated by space")
     {
-      script = "set(a b c) # comment\n";
+      script = "set(a b c) # comment\n"sv;
     }
 
     SECTION("Command invocation without end line")
     {
-      script = "set(a b c) # comment ";
+      script = "set(a b c) # comment "sv;
     }
 #endif
 
     SECTION("Bracket comment")
     {
-      script = "#[[ line 1 \n line 2 ]]\n";
+      script = "#[[ line 1 \n line 2 ]]\n"sv;
     }
 
     SECTION("Multiple bracket comments")
     {
-      script = "#[[ line 1 \n line 2 ]]   #[[ line 4 \n line 5 ]]  \n";
+      script = "#[[ line 1 \n line 2 ]]   #[[ line 4 \n line 5 ]]  \n"sv;
     }
 
     SECTION("Empty line")
     {
-      script = "\n";
+      script = "\n"sv;
     }
 
     SECTION("Only spaces")
     {
-      script = "   \n";
+      script = "   \n"sv;
     }
     SECTION("Only one comment")
     {
-      script = "# comment \n";
+      script = "# comment \n"sv;
     }
 
     Range r{ script.begin(), script.end() };
@@ -71,7 +72,7 @@ TEST_CASE("FileElementParser", "[Parser]")
 #ifdef CMAKE_PARSER_STRICT_MODE
     SECTION("Anything without line ending")
     {
-      std::string script = "set(a b c)";
+      auto script = "set(a b c)"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);

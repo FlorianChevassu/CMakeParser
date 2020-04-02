@@ -8,6 +8,7 @@
 
 TEST_CASE("SeparationParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
   Parser<ElementType::Separation> parser;
 
@@ -15,7 +16,7 @@ TEST_CASE("SeparationParser", "[Parser]")
   {
     SECTION("Space")
     {
-      std::string script = " ";
+      auto script = " "sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -24,7 +25,7 @@ TEST_CASE("SeparationParser", "[Parser]")
 
     SECTION("Spaces")
     {
-      std::string script = "  ";
+      auto script = "  "sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -33,7 +34,7 @@ TEST_CASE("SeparationParser", "[Parser]")
 
     SECTION("Line ending")
     {
-      std::string script = "# end of line comment \n";
+      auto script = "# end of line comment \n"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -45,7 +46,7 @@ TEST_CASE("SeparationParser", "[Parser]")
   {
     SECTION("Any other character")
     {
-      std::string script = "_";
+      auto script = "_"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);
@@ -53,7 +54,7 @@ TEST_CASE("SeparationParser", "[Parser]")
 
     SECTION("Space followed by something")
     {
-      std::string script = " _";
+      auto script = " _"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
