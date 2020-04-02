@@ -8,6 +8,7 @@
 
 TEST_CASE("NewLineParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
   Parser<ElementType::NewLine> parser;
 
@@ -15,7 +16,7 @@ TEST_CASE("NewLineParser", "[Parser]")
   {
     SECTION("New line")
     {
-      std::string script = "\n";
+      auto script = "\n"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -27,7 +28,7 @@ TEST_CASE("NewLineParser", "[Parser]")
   {
     SECTION("Empty range")
     {
-      std::string script = "";
+      auto script = ""sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);
@@ -35,7 +36,7 @@ TEST_CASE("NewLineParser", "[Parser]")
 
     SECTION("Multiple new lines")
     {
-      std::string script = "\n\n";
+      auto script = "\n\n"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);

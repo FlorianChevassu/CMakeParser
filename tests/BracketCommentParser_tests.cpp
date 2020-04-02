@@ -8,6 +8,7 @@
 
 TEST_CASE("BracketCommentParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
   Parser<ElementType::BracketComment> parser;
 
@@ -15,7 +16,7 @@ TEST_CASE("BracketCommentParser", "[Parser]")
   {
     SECTION("Classic case")
     {
-      std::string script = "#[[ comment \n comment]]";
+      auto script = "#[[ comment \n comment]]"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -27,14 +28,14 @@ TEST_CASE("BracketCommentParser", "[Parser]")
   {
     SECTION("Without \'#\'")
     {
-      std::string script = "[[ test ]]";
+      auto script = "[[ test ]]"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);
     }
     SECTION("With space between \'#\' and bracket open")
     {
-      std::string script = "# [[ test ]]";
+      auto script = "# [[ test ]]"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);

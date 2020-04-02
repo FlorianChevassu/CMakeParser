@@ -8,6 +8,7 @@
 
 TEST_CASE("SeparatedArgumentsParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
   Parser<ElementType::SeparatedArguments> parser;
 
@@ -15,7 +16,7 @@ TEST_CASE("SeparatedArgumentsParser", "[Parser]")
   {
     SECTION("Classic case")
     {
-      std::string script = " a";
+      auto script = " a"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -24,7 +25,7 @@ TEST_CASE("SeparatedArgumentsParser", "[Parser]")
 
     SECTION("With parentheses")
     {
-      std::string script = "(a b c)";
+      auto script = "(a b c)"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -33,7 +34,7 @@ TEST_CASE("SeparatedArgumentsParser", "[Parser]")
 
     SECTION("With multiple parentheses")
     {
-      std::string script = "((a b c))";
+      auto script = "((a b c))"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -42,7 +43,7 @@ TEST_CASE("SeparatedArgumentsParser", "[Parser]")
 
     SECTION("With inner parentheses")
     {
-      std::string script = "(a (b) c)";
+      auto script = "(a (b) c)"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -54,7 +55,7 @@ TEST_CASE("SeparatedArgumentsParser", "[Parser]")
   {
     SECTION("With missing parentheses")
     {
-      std::string script = "(a b c";
+      auto script = "(a b c"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);

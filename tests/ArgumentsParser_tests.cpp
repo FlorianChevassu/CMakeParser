@@ -8,6 +8,7 @@
 
 TEST_CASE("ArgumentsParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
   Parser<ElementType::Arguments> parser;
 
@@ -15,7 +16,7 @@ TEST_CASE("ArgumentsParser", "[Parser]")
   {
     SECTION("Single argument")
     {
-      std::string script = "[[ text ]]";
+      auto script = "[[ text ]]"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -24,7 +25,7 @@ TEST_CASE("ArgumentsParser", "[Parser]")
 
     SECTION("Multiple arguments")
     {
-      std::string script = "arg1 arg2 \"argument 3\"";
+      auto script = "arg1 arg2 \"argument 3\""sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -33,7 +34,7 @@ TEST_CASE("ArgumentsParser", "[Parser]")
 
     SECTION("Arguments surrounded by parentheses")
     {
-      std::string script = "(arg1 arg2) arg3 (arg4 arg5)";
+      auto script = "(arg1 arg2) arg3 (arg4 arg5)"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -42,7 +43,7 @@ TEST_CASE("ArgumentsParser", "[Parser]")
 
     SECTION("Should match spaces before and after")
     {
-      std::string script = " arg ";
+      auto script = " arg "sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -51,7 +52,7 @@ TEST_CASE("ArgumentsParser", "[Parser]")
 
     SECTION("Should match parenthesis before and after")
     {
-      std::string script = "(arg)";
+      auto script = "(arg)"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);

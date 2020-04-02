@@ -8,6 +8,7 @@
 
 TEST_CASE("LineCommentParser", "[Parser]")
 {
+  using namespace std::literals;
   using namespace cmake::language;
   Parser<ElementType::LineComment> parser;
 
@@ -15,7 +16,7 @@ TEST_CASE("LineCommentParser", "[Parser]")
   {
     SECTION("Classic case")
     {
-      std::string script = "# comment";
+      auto script = "# comment"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -27,7 +28,7 @@ TEST_CASE("LineCommentParser", "[Parser]")
   {
     SECTION("Start with anything but a \'#\'")
     {
-      std::string script = " # comment with space";
+      auto script = " # comment with space"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);
@@ -35,7 +36,7 @@ TEST_CASE("LineCommentParser", "[Parser]")
 
     SECTION("Start with bracket open")
     {
-      std::string script = "#[[ comment";
+      auto script = "#[[ comment"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);
@@ -43,7 +44,7 @@ TEST_CASE("LineCommentParser", "[Parser]")
 
     SECTION("Do not match new lines")
     {
-      std::string script = "# comment \n with new lines";
+      auto script = "# comment \n with new lines"sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
