@@ -10,7 +10,7 @@ namespace cmake::language
   //-----------------------------------------------------------------------------
   tl::expected<Token, Error> Parser<ElementType::UnquotedElement>::Parse(Range r)
   {
-    auto IsInvalidCharacter = [](Char c) {
+    auto IsInvalidCharacter = [](char c) {
       return c == ' ' ||
         c == '(' ||
         c == ')' ||

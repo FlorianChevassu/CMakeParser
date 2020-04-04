@@ -6,7 +6,6 @@ namespace cmake::language
 {
 
   using It = std::string::const_iterator;
-  using Char = char;
 
   struct Context
   {

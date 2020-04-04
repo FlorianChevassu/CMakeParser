@@ -16,7 +16,7 @@ namespace cmake::language
       return tl::make_unexpected(err);
     }
 
-    auto IsInvalidChar = [](Char c) {
+    auto IsInvalidChar = [](char c) {
       return (c >= 'A' && c <= 'Z') ||
         (c >= 'a' && c <= 'z') ||
         (c >= '0' && c <= '9') ||

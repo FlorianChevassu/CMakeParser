@@ -46,7 +46,7 @@ namespace cmake::language
       return tl::make_unexpected(err);
     }
 
-    if (!std::all_of(r.begin + 1, r.begin + 1 + m_length, [](Char c) { return c == '='; }) ||
+    if (!std::all_of(r.begin + 1, r.begin + 1 + m_length, [](char c) { return c == '='; }) ||
       *(r.begin + m_length + 1) != ']')
     {
       Error err;

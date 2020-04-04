@@ -9,7 +9,7 @@ namespace cmake::language
   //-----------------------------------------------------------------------------
   tl::expected<Token, Error> Parser<ElementType::Identifier>::Parse(Range r)
   {
-    auto IsValidFirstChar = [](Char c) {
+    auto IsValidFirstChar = [](char c) {
       return (c >= 'a' && c <= 'z') ||
         (c >= 'A' && c <= 'Z') ||
         c == '_';
@@ -23,7 +23,7 @@ namespace cmake::language
       return tl::make_unexpected(err);
     }
 
-    auto IsValidChar = [=](Char c) {
+    auto IsValidChar = [=](char c) {
       return IsValidFirstChar(c) ||
         (c >= '0' && c <= '9');
     };
@@ -31,7 +31,7 @@ namespace cmake::language
     Token result;
     result.type = ElementType::Identifier;
 
-    auto firstBadChar = std::find_if(r.begin, r.end, [=](Char c) { return !IsValidChar(c); });
+    auto firstBadChar = std::find_if(r.begin, r.end, [=](char c) { return !IsValidChar(c); });
 
     result.range = Range{ r.begin, firstBadChar };
     return result;

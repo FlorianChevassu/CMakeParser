@@ -10,7 +10,7 @@ namespace cmake::language
   //-----------------------------------------------------------------------------
   tl::expected<Token, Error> Parser<ElementType::QuotedElement>::Parse(Range r)
   {
-    auto IsValidCharacter = [](Char c) { return c != '\\' && c != '"'; };
+    auto IsValidCharacter = [](char c) { return c != '\\' && c != '"'; };
 
     if (r.IsEmpty())
     {
