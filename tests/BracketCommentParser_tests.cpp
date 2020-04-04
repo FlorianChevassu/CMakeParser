@@ -21,6 +21,8 @@ TEST_CASE("BracketCommentParser", "[Parser]")
       auto result = parser.Parse(r);
       REQUIRE(result);
       REQUIRE(result.value().range == r);
+      // Bracket open, content and close.
+      REQUIRE(result.value().children.size() == 3);
     }
   }
 
