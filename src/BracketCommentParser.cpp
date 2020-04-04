@@ -25,6 +25,7 @@ namespace cmake::language
     {
       return tmp;
     }
+    result.children = std::move(tmp.value().children);
     result.range = Range{ r.begin, tmp->range.end };
     return result;
   }
