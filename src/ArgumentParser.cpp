@@ -17,14 +17,14 @@ namespace cmake::language
     {
       result.children.push_back(*tmp);
       result.range = Range{ r.begin, tmp->range.end };
-      return tmp;
+      return result;
     }
     tmp = Parser<ElementType::QuotedArgument>{}.Parse(r);
     if (tmp)
     {
       result.children.push_back(*tmp);
       result.range = Range{ r.begin, tmp->range.end };
-      return tmp;
+      return result;
     }
     tmp = Parser<ElementType::UnquotedArgument>{}.Parse(r);
     if (tmp)
