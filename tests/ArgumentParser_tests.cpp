@@ -19,6 +19,7 @@ TEST_CASE("ArgumentParser", "[Parser]")
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
+      REQUIRE(result.value().type == ElementType::Argument);
       REQUIRE(result.value().range == r);
     }
 
@@ -28,6 +29,7 @@ TEST_CASE("ArgumentParser", "[Parser]")
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
+      REQUIRE(result.value().type == ElementType::Argument);
       REQUIRE(result.value().range == r);
     }
 
@@ -37,6 +39,7 @@ TEST_CASE("ArgumentParser", "[Parser]")
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
+      REQUIRE(result.value().type == ElementType::Argument);
       REQUIRE(result.value().range == r);
     }
   }
