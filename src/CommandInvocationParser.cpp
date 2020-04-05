@@ -18,6 +18,62 @@ namespace cmake::language
     {
       return { std::find_if_not(r.begin, r.end, [](char c) {return std::isspace(c); }), r.end };
     }
+
+    //-----------------------------------------------------------------------------
+    tl::expected<Token, Error> ParseIdentifier(Range r)
+    {
+      auto newRange = IgnoreSpaces(r);
+      auto identifier = Parser<ElementType::Identifier>{}.Parse(newRange);
+      if (identifier)
+      {
+        // Make sure we take into account the spaces
+        identifier->range.begin = r.begin;
+      }
+      return identifier;
+    }
+
+    //-----------------------------------------------------------------------------
+    tl::expected<Token, Error> ParseArguments(Range r)
+    {
+      auto newRange = IgnoreSpaces(r);
+      if (*newRange.begin != '(')
+      {
+        Error err;
+        err.message = "A command invocation should wrap its arguments between parenthesis.";
+        err.context = newRange.begin;
+        return tl::make_unexpected(err);
+      }
+
+      auto args = Parser<ElementType::Arguments>{}.Parse(Range{ newRange.begin + 1, r.end });
+
+      auto closingParenIt = args ? args->range.end : newRange.begin + 1;
+      if (closingParenIt >= r.end)
+      {
+        Error err;
+        err.message = "Missing parenthesis at the end of the command invocation";
+        err.context = closingParenIt;
+        return tl::make_unexpected(err);
+      }
+      if (*closingParenIt != ')')
+      {
+        Error err;
+        err.message = fmt::format("Expected \')\', got {}", *closingParenIt);
+        err.context = closingParenIt;
+        return tl::make_unexpected(err);
+      }
+
+      if (args)
+      {
+        args->range = Range{ r.begin, args->range.end + 1 };
+      }
+      else
+      {
+        args = Token{};
+        args->type = ElementType::Arguments;
+        args->range = Range{ r.begin, newRange.begin + 2 };
+      }
+      return args;
+    }
   }
 
   //-----------------------------------------------------------------------------
@@ -26,8 +82,7 @@ namespace cmake::language
     Token result;
     result.type = ElementType::CommandInvocation;
 
-    auto newRange = IgnoreSpaces(r);
-    auto identifier = Parser<ElementType::Identifier>{}.Parse(newRange);
+    auto identifier = ParseIdentifier(r);
     if (!identifier)
     {
       // Just forward the error
@@ -35,49 +90,15 @@ namespace cmake::language
     }
     result.children.push_back(*identifier);
 
-    newRange = IgnoreSpaces(Range{ identifier->range.end, r.end });
-    if (*newRange.begin != '(')
+    auto args = ParseArguments(Range{identifier->range.end, r.end});
+    if (!args)
     {
-      Error err;
-      err.message = "A command invocation should wrap its arguments between parenthesis.";
-      err.context = newRange.begin;
-      return tl::make_unexpected(err);
+      // Just forward the error
+      return args;
     }
+    result.children.push_back(*args);
 
-    auto args = Parser<ElementType::Arguments>{}.Parse(Range{ newRange.begin + 1, r.end });
-    if (args)
-    {
-      result.children.push_back(*args);
-
-      if (args->range.end >= r.end)
-      {
-        Error err;
-        err.message = "Missing parenthesis";
-        err.context = args->range.end;
-        return tl::make_unexpected(err);
-      }
-
-      if (*args->range.end != ')')
-      {
-        Error err;
-        err.message = fmt::format("Expected \')\', got {}", *args->range.end);
-        err.context = args->range.end;
-        return tl::make_unexpected(err);
-      }
-      result.range = Range{ r.begin, args->range.end + 1 };
-    }
-    else
-    {
-      if (*(newRange.begin + 1) != ')')
-      {
-        Error err;
-        err.message = fmt::format("Expected \')\', got {}", *(newRange.begin + 1));
-        err.context = newRange.begin + 1;
-        return tl::make_unexpected(err);
-      }
-      result.range = Range{ r.begin, newRange.begin + 2 };
-    }
-
+    result.range = Range{ identifier->range.begin, args->range.end };
     return result;
   }
 }
