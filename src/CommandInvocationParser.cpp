@@ -68,6 +68,13 @@ namespace cmake::language
     }
     else
     {
+      if (newRange.begin + 1 == newRange.end)
+      {
+        Error err;
+        err.message = "Missing parenthesis at the end of the command invocation";
+        err.context = newRange.begin + 1;
+        return tl::make_unexpected(err);
+      }
       if (*(newRange.begin + 1) != ')')
       {
         Error err;
