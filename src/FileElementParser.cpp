@@ -93,6 +93,14 @@ namespace cmake::language
       return tl::make_unexpected(std::move(err));
 #else
       result.range = Range{ r.begin, currentRange.begin };
+      if (result.range.IsEmpty())
+      {
+        Error err;
+        err.message = "A FileElement cannot be empty.";
+        err.context = Range{ currentRange.begin, currentRange.begin };
+        err.children.push_back(lineEnding.error());
+        return tl::make_unexpected(std::move(err));
+      }
 #endif
     }
     else
