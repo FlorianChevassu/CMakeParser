@@ -31,7 +31,17 @@ namespace cmake::language
       }
       else
       {
-        result.range = Range{ r.begin, newRange.end };
+        if (newRange.IsEmpty())
+        {
+          result.range = Range{ r.begin, newRange.begin };
+        }
+        else
+        {
+          Error err;
+          err.message = "A LineEnding can only contain spaces, a line comment, and a new line.";
+          err.context = Range{ newRange.begin, newRange.begin };
+          return tl::make_unexpected(err);
+        }
       }
 #endif
     }
