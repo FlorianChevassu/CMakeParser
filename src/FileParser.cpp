@@ -20,15 +20,12 @@ namespace cmake::language
       lastValidFileElement = fileElement;
       fileElement = Parser<ElementType::FileElement>{}.Parse(Range{ fileElement->range.end, r.end });
     }
-    if (lastValidFileElement)
+    if (!lastValidFileElement)
     {
-      result.range = Range{ r.begin, lastValidFileElement->range.end };
-    }
-    else
-    {
-      result.range = Range{ r.begin, r.begin };
+      return lastValidFileElement;
     }
 
+    result.range = Range{ r.begin, lastValidFileElement->range.end };
     return result;
   }
 }
