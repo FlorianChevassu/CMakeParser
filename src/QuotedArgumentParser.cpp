@@ -9,9 +9,9 @@ namespace cmake::language
 {
   tl::unexpected<Error> CreateMissingEndingQuoteError(const Range& range)
   {
-    Error error;
-    error.context = range.begin;
-    error.message = "Could not parse quoted argument. Missing ending quotes.";
+    Error error = Error::make()
+      .context(range)
+      .message("Could not parse quoted argument. Missing ending quotes.");
     return tl::make_unexpected(error);
   }
 
