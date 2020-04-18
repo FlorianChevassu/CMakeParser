@@ -63,6 +63,7 @@ target_sources(CMakeParser PRIVATE ${HEADERS}
     BracketOpenParser.cpp
     CommandInvocationParser.cpp
     CommonErrors.cpp
+    Error.cpp
     EscapeEncodedParser.cpp
     EscapeIdentityParser.cpp
     EscapeSemiliconParser.cpp
