@@ -26,7 +26,7 @@ TEST_CASE("QuotedArgumentParser", "[Parser]")
 
     SECTION("Empty quotes")
     {
-      std::string script = "\"\"";
+      auto script = "\"\""sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
@@ -61,7 +61,7 @@ TEST_CASE("QuotedArgumentParser", "[Parser]")
     }
     SECTION("Only opening quote")
     {
-      std::string script = "\"";
+      auto script = "\""sv;
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(!result);
