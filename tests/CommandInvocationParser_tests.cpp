@@ -47,6 +47,9 @@ TEST_CASE("CommandInvocationParser", "[Parser]")
       Range r{ script.begin(), script.end() };
       auto result = parser.Parse(r);
       REQUIRE(result);
+      REQUIRE(result->children.size() > 0);
+      REQUIRE(result->children[0].type == ElementType::Identifier);
+      REQUIRE(result->children[0].range == Range{ script.begin() + 1, script.begin() + 4 });
       REQUIRE(result.value().range == r);
     }
 
