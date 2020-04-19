@@ -23,13 +23,7 @@ namespace cmake::language
     tl::expected<Token, Error> ParseIdentifier(Range r)
     {
       auto newRange = IgnoreSpaces(r);
-      auto identifier = Parser<ElementType::Identifier>{}.Parse(newRange);
-      if (identifier)
-      {
-        // Make sure we take into account the spaces
-        identifier->range.begin = r.begin;
-      }
-      return identifier;
+      return Parser<ElementType::Identifier>{}.Parse(newRange);
     }
 
     //-----------------------------------------------------------------------------
@@ -98,7 +92,7 @@ namespace cmake::language
     }
     result.children.push_back(*args);
 
-    result.range = Range{ identifier->range.begin, args->range.end };
+    result.range = Range{ r.begin, args->range.end };
     return result;
   }
 }

@@ -34,6 +34,14 @@ TEST_CASE("IdentifierParser", "[Parser]")
       REQUIRE(!result);
     }
 
+    SECTION("Start with some spaces")
+    {
+      auto script = "\nbad"sv;
+      Range r{ script.begin(), script.end() };
+      auto result = parser.Parse(r);
+      REQUIRE(!result);
+    }
+
     SECTION("Use special characters")
     {
       auto script = "dollar_$_is_not_valid"sv;
